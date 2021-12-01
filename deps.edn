@@ -1,0 +1,4 @@
+{:deps    {org.clojure/clojure {:mvn/version "1.10.3"}
+           aocd/aocd           {:mvn/version "0.1.1"}}
+ :paths   ["src" "resources"]
+ :aliases {}}
