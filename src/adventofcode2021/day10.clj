@@ -10,17 +10,15 @@
 (defn opening-bracket? [s] (some? (syntax s)))
 (defn brackets-match? [opening closing] (= (get syntax opening) closing))
 
-(defn remove-last [v] (subvec v 0 (dec (count v))))
-
 (defn first-wrong-char-or-stack
   "Validate the syntax and return either the char that caused a syntax error, or the opening bracket stack up until that point if the line is incomplete."
   [xs]
   (reduce (fn [stack bracket]
             (cond
               (opening-bracket? bracket) (conj stack bracket)
-              (brackets-match? (last stack) bracket) (remove-last stack)
+              (brackets-match? (first stack) bracket) (rest stack)
               :else (reduced bracket)))
-          []
+          '()
           xs))
 
 ;; part 1
@@ -44,7 +42,7 @@
   (nth (sort xs) (Math/floor (/ (count xs) 2))))
 
 (defn autocomplete-line [stack]
-  (->> stack (reverse) (map syntax)))
+  (->> stack (map syntax)))
 
 (defn autocomplete-middle-score [input]
   (->> (parse-input input)
